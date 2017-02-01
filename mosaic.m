@@ -1,11 +1,14 @@
-
+% Mosaicing of three images. 
 function mosaic()
-I1 = imread('b1.jpg');
-I2 = imread('b2.jpg');
-I3 = imread('b3.jpg');
+
+I1 = imread('img1.pgm');
+I2 = imread('img2.pgm');
+I3 = imread('img3.pgm');
+% Set the canvas_row and column size
 canvas_rows = 600;
 canvas_columns = 1500;
 canvas = zeros(canvas_rows,canvas_columns);
+% Offset to bring the image to center. 
 offsetRow = 350;
 offsetColumn = 100;
 [H21,H23] = get_homography();
@@ -49,8 +52,9 @@ function [intrep] = BilinearInterp(i,j,I)
 end
 
 function [H21,H23] = get_homography()
-    H21  = inv(ransac1('b1.jpg','b2.jpg'));
-    H23  = inv(ransac1('b3.jpg','b2.jpg'));
+    % Finding best homography using ransac
+    H21  = inv(ransac1('img1.pgm','img2.jpg'));
+    H23  = inv(ransac1('img3.pgm','img2.jpg'));
 end
 
 function [blend] = BlendValues(v1,v2,v3)
